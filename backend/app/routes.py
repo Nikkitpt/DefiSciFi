@@ -4,7 +4,7 @@ from .utils import add_transaction
 from web3 import Web3
 import json
 import requests
-from mock_data import simulate_supply, simulate_borrow, simulate_send
+from mock_data import simulate_supply, simulate_borrow, simulate_swap, simulate_send
 
 main = Blueprint('main', __name__)
 
@@ -48,4 +48,14 @@ def send():
     asset = data.get('asset')
     recipient = data.get('recipient')
     result = simulate_send(amount, asset, recipient)
+    return jsonify(result)
+
+
+@main.route('/swap', methods=['POST'])
+def swap():
+    data = request.get_json()
+    amount = data.get('amount')
+    from_asset = data.get('fromAsset')
+    to_asset = data.get('toAsset')
+    result = simulate_swap(amount,from_asset,to_asset)
     return jsonify(result)

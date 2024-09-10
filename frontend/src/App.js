@@ -4,7 +4,8 @@ import Portfolio from './components/Portfolio';
 import TransactionHistory from './components/TransactionHistory';
 import SupplyForm from './components/SupplyForm';
 import BorrowForm from './components/BorrowForm';
-import SendForm from './components/SendForm';
+import SwapForm from './components/SwapForm';
+
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
       <TransactionHistory />
       <SupplyForm />
       <BorrowForm />
-      <SendForm />
+      <SwapForm />
     </div>
   );
 }
