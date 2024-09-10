@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
+from flask_cors import CORS
 
 
 # Initialize extensions without tying them to any specific app yet
@@ -16,6 +17,8 @@ def create_app():
     # Initialize the extensions with the app instance
     db.init_app(app)
     migrate.init_app(app, db)
+    cors = CORS(app)
+
 
     # Import and register blueprints after app creation to avoid circular imports
     from .routes import main
