@@ -9,4 +9,9 @@ export const mockPortfolio = [
     { id: 2, type: 'Stake', token: 'ETH', amount: 0.5, date: '2024-09-03' }
   ];
 
+  export const mockAssets = [
+    { id: 1, token: 'DAI', amount: 100, value: '$3000', change: "chart" },
+    { id: 2, token: 'ETH', amount: 0.5, value: '$400', change: "chart" },
+    { id: 3, token: 'USDC', amount: 0.5, value: '$400', change: "chart" },
+  ];
   
