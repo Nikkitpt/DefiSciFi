@@ -5,6 +5,7 @@ import TransactionHistory from './components/TransactionHistory';
 import SupplyForm from './components/SupplyForm';
 import BorrowForm from './components/BorrowForm';
 import SwapForm from './components/SwapForm';
+import Stake from './components/Stake';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <SupplyForm refreshPortfolio={refreshPortfolio} />
       <BorrowForm refreshPortfolio={refreshPortfolio} />
       <SwapForm refreshPortfolio={refreshPortfolio} />
+      <Stake refreshPortfolio={refreshPortfolio} />
     </div>
   );
 }
