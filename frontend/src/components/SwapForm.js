@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const SwapForm = () => {
+const SwapForm = ({refreshPortfolio}) => {
     const [amount, setAmount] = useState(0);
     const [fromAsset, setFromAsset] = useState('ETH');
     const [toAsset, setToAsset] = useState('DAI');
@@ -19,6 +19,7 @@ const SwapForm = () => {
           },
         });
         setResponse(res.data.message);
+        refreshPortfolio();
       } catch (error) {
         console.error('Error during swap request', error);
         setResponse('Failed to perform swap. Please try again.');

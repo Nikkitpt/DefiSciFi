@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 
-function Portfolio() {
+// Use React.forwardRef to allow this component to be referenced
+const Portfolio = forwardRef((props, ref) => {
   const [portfolio, setPortfolio] = useState(null);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchPortfolio = async () => {
-      try {
-        const res = await axios.get('http://127.0.0.1:5000/portfolio');
-        setPortfolio(res.data);  // Assuming res.data contains the mock_balance
-      } catch (error) {
-        console.error('Error fetching portfolio:', error);
-        setError('Failed to fetch portfolio data.');
-      }
-    };
+  // Function to fetch portfolio data
+  const fetchPortfolio = async () => {
+    try {
+      const res = await axios.get('http://127.0.0.1:5000/portfolio');
+      setPortfolio(res.data);  // Assuming res.data contains the mock_balance
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+      setError('Failed to fetch portfolio data.');
+    }
+  };
 
-    fetchPortfolio();
+  // Expose fetchPortfolio function via ref
+  useImperativeHandle(ref, () => ({
+    fetchPortfolio
+  }));
+
+  useEffect(() => {
+    fetchPortfolio();  // Fetch portfolio on component mount
   }, []);
 
   if (error) {
@@ -39,6 +46,6 @@ function Portfolio() {
       </ul>
     </div>
   );
-}
+});
 
 export default Portfolio;

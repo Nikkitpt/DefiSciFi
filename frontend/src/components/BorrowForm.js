@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const BorrowForm = () => {
+const BorrowForm = ({refreshPortfolio}) => {
   const [amount, setAmount] = useState(0);
   const [asset, setAsset] = useState('ETH');
   const [response, setResponse] = useState('');
@@ -17,6 +17,7 @@ const BorrowForm = () => {
         },
       });
       setResponse(res.data.message);
+      refreshPortfolio();
     } catch (error) {
       console.error('Error during borrow request', error);
       setResponse('Failed to borrow asset. Please try again.');

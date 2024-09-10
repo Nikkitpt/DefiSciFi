@@ -7,18 +7,51 @@ import BorrowForm from './components/BorrowForm';
 import SwapForm from './components/SwapForm';
 
 
-
 function App() {
+  const portfolioRef = React.useRef(null);
+
+  const refreshPortfolio = () => {
+    if (portfolioRef.current) {
+      portfolioRef.current.fetchPortfolio();
+    }
+  };
   return (
     <div className="App">
-      <h1>Crypto Dashboard</h1>
-      <Portfolio />
+      <h1>DeFi SciFi </h1>
+      <Portfolio ref={portfolioRef} />
       <TransactionHistory />
-      <SupplyForm />
-      <BorrowForm />
-      <SwapForm />
+      <SupplyForm refreshPortfolio={refreshPortfolio} />
+      <BorrowForm refreshPortfolio={refreshPortfolio} />
+      <SwapForm refreshPortfolio={refreshPortfolio} />
     </div>
   );
 }
 
 export default App;
+
+
+// import React from 'react';
+// import Portfolio from './components/Portfolio';
+// import SupplyForm from './components/SupplyForm';
+// // import SwapForm from './SwapForm';
+
+// function App() {
+//   const portfolioRef = React.useRef(null);
+
+//   const refreshPortfolio = () => {
+//     if (portfolioRef.current) {
+//       portfolioRef.current.fetchPortfolio();
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h1>DeFi Dashboard</h1>
+//       <Portfolio ref={portfolioRef} />
+//       <SupplyForm refreshPortfolio={refreshPortfolio} />
+//       {/* <SwapForm refreshPortfolio={refreshPortfolio} /> */}
+//     </div>
+//   );
+// }
+
+// export default App;

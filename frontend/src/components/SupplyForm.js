@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const SupplyForm = () => {
+const SupplyForm = ({ refreshPortfolio }) => {
   const [amount, setAmount] = useState(0);
   const [asset, setAsset] = useState('ETH');
   const [response, setResponse] = useState('');
@@ -9,14 +9,17 @@ const SupplyForm = () => {
   const handleSupply = async () => {
     try {
       const res = await axios.post('http://127.0.0.1:5000/supply', {
-        amount: parseInt(amount), // Ensure amount is an integer
-        asset: asset, // Ensure asset is a string
+        amount: parseInt(amount),
+        asset: asset,
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
       setResponse(res.data.message);
+
+      // Call refreshPortfolio to update portfolio after supply
+      refreshPortfolio();
     } catch (error) {
       console.error('Error during supply request', error);
       setResponse('Failed to supply asset. Please try again.');
