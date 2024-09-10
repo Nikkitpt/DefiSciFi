@@ -9,12 +9,14 @@ import StakeForm from './Stake';
 import SupplyForm from './SupplyForm';
 import BorrowForm from './BorrowForm';
 
-export default function CenteredTabs() {
+export default function CenteredTabs({ refreshPortfolio }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+
 
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -26,10 +28,10 @@ export default function CenteredTabs() {
       </Tabs>
 
       <Box sx={{ p: 3 }}>
-        {value === 0 && <SwapForm />}
-        {value === 1 && <StakeForm />}
-        {value === 2 && <SupplyForm />}
-        {value === 3 && <BorrowForm />}
+        {value === 0 && <SwapForm refreshPortfolio={refreshPortfolio}/>}
+        {value === 1 && <StakeForm refreshPortfolio={refreshPortfolio}/>}
+        {value === 2 && <SupplyForm refreshPortfolio={refreshPortfolio}/>}
+        {value === 3 && <BorrowForm refreshPortfolio={refreshPortfolio}/>}
       </Box>
     </Box>
   );
