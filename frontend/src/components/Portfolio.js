@@ -36,7 +36,7 @@ const Portfolio = forwardRef((props, ref) => {
 
   return (
     <div>
-      <h2>Your Portfolio</h2>
+      <h1 color='black'>Total Balance</h1>
       <ul>
         {Object.keys(portfolio).map((token, index) => (
           <li key={index}>
