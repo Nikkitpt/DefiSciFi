@@ -9,26 +9,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import DefiBar from './components/DefiBar';
 import TransactionHistory from './components/TransactionHistory';
 import Assets from './components/CryptoAssets';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#3f51b5',  // Change the primary color
-    },
-    secondary: {
-      main: '#f50057',  // Change the secondary color
-    },
-    background: {
-      default: '#f4f6f8',  // Change the default background color
-      paper: '#ffffff',    // Change the Paper component background color
-    },
-    text: {
-      primary: '#333333', // Text color
-      secondary: '#757575', // Secondary text color
-    },
-  },
-});
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -52,13 +32,10 @@ function App() {
     };
 
 return (
-  <ThemeProvider theme={theme}>
-  <div className="App">
-    {/* <h1 justify>DeFi SciFi </h1> */}
-    {/* <Box sx={{ flexGrow: 1, bgcolor: '#e0f7fa' }}> */}
-    <Box sx={{ flexGrow: 1 }}>
-    <h1 justify>DeFi SciFi </h1>
 
+  <div className="App">
+    <Box sx={{ flexGrow: 1, bgcolor: '#e0f7fa'  }}>
+    <h1 style={{ textAlign: 'left' }}>DeFi SciFi </h1>
       <Grid container spacing={2}>
         <Grid size={4}>
           <Item>
@@ -109,7 +86,6 @@ return (
     </Box>
 
   </div>
-  </ThemeProvider>
 );
 }
 

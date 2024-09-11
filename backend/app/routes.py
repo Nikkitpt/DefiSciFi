@@ -1,10 +1,9 @@
 from flask import Blueprint, jsonify, request
-from mock_data import mock_transactions, mock_balance
+from mock_data import mock_transactions, mock_balance, simulate_supply, simulate_borrow, simulate_swap, simulate_send, simulate_stake, simulate_claim_rewards
 from .utils import add_transaction
 from web3 import Web3
 import json
 import requests
-from mock_data import simulate_supply, simulate_borrow, simulate_swap, simulate_send, simulate_stake, simulate_claim_rewards
 
 main = Blueprint('main', __name__)
 
@@ -16,6 +15,15 @@ def create_transaction():
 
 @main.route('/portfolio', methods=['GET','OPTIONS'])
 def get_portfolio():
+    #return total balance, 
+    # eth, dai, usdc,
+    #staked, claimed, supplied, borrowed
+
+    #tb - use $ function
+    #pie - exactly the way it is
+    #ah - update mocknew from stake, borrow, supplied
+    mock_new = {'total_balance': 1000, 'pie_chart': {'ETH': 1, 'DAI': 2, "USDC": 3}, 'asset_history': {'staked': 4, 'claimed': 5, 'borrowed': 6, 'supplied': 7}}
+    print(mock_balance)
     return jsonify(mock_balance)
 
 @main.route('/transactions', methods=['GET', "OPTIONS"])
