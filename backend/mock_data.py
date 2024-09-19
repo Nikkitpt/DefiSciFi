@@ -1,41 +1,33 @@
-import time
+from datetime import datetime
+
+# Get today's date
+today = datetime.now()
+
+# Format the date as 'YYYY-MM-DD'
+formatted_date = today.strftime('%Y-%m-%d')
+
+print(formatted_date)
+
 
 mock_balance = {
-    'ETH': 10,
-    'DAI': 1000,
-    'USDC': 500,
-    'Staked': 50,
-    'Supplied':10,
-    'Borrowed': 25,
-    'Claimed': 15,
+    'total_balance': 100000, 
+    'pie_chart': {'ETH': 10, 'DAI': 200, "USDC": 250}, 
+    'asset_history': {'staked': 4, 'claimed': 5, 'borrowed': 6, 'supplied': 7}, 
+    'assets':[
+        {"id": 1, "token": 'DAI', "amount": 200, "value": 3000, "change": "-2" },
+        {"id": 2, "token": 'ETH', "amount": 10, "value": 400, "change": "3" },
+        {"id": 3, "token": 'USDC', "amount": 2.5, "value": 400, "change": "4" },
+    ]
 }
 
-mock_staked = {
-    'ETH': 0,
-    'DAI': 0
-}
 
-mock_rewards= {
-    'ETH': 0,
-    'DAI': 0
-}
 
-reward_rates = {
-    'ETH': 0.05,  # 5% weekly
-    'DAI': 0.02   # 2% weekly
-}
-
-stake_time = {}
+print(mock_balance['pie_chart']['ETH'])
 
 mock_transactions = [
-    {'id': 1, 'type': 'Lend', 'token': 'DAI', 'amount': 100, 'date': '2024-09-01'},
-    {'id': 2, 'type': 'Stake', 'token': 'ETH', 'amount': 0.5, 'date': '2024-09-03'}
+    {'id': 1, 'type': 'Lend', 'token': 'DAI', 'amount': 100, 'date': '2024-09-01', 'gas': ".00001"},
+    {'id': 2, 'type': 'Stake', 'token': 'ETH', 'amount': 0.5, 'date': '2024-09-03','gas': ".00001"}
 ]
-# mock_balance = {
-#     'ETH': 10,
-#     'DAI': 1000,
-#     'USDC': 500
-# }
 
 exchange_rates = {
     'ETH': {'DAI': 1800, 'USDC': 1800},
@@ -45,38 +37,41 @@ exchange_rates = {
 
 
 def simulate_stake(amount, asset):
-    if mock_balance.get(asset) and mock_balance[asset] >= amount:
-        # Deduct the amount from balance and add to staked balance
-        mock_balance[asset] -= amount
-        mock_staked[asset] += amount
-        stake_time[asset] = time.time() 
+    staked = mock_balance['asset_history']['staked']
+    #update staked 
+    mock_balance['asset_history']['staked'] = staked + amount
+
+    #reduce balance
+    if asset == "ETH":
+        eth_balance = mock_balance['assets'][1]['amount']
+        print("ETH BALANCE \n", eth_balance)
+        eth_balance = eth_balance - amount
+        mock_balance['assets'][1]['amount'] = eth_balance
+
+        mock_balance['pie_chart']["ETH"] = eth_balance
+
+        mock_balance['total_balance'] -= eth_balance * 2389 #rate as of 9/19
+
+        new_staked = (amount * 2389) + staked
+
+        mock_balance['asset_history']['staked'] = new_staked
         
-        #add logic add to transaction history
+        # history = {'id': len(mock_transactions) + 1, 'type': 'Stake', 'token': 'ETH', 'amount': amount, 'date': formatted_date,'gas': ".00001"}
+        # mock_transactions.append(history)
 
-         # Record the time of staking
-        return {'status': 'success', 'message': f'Staked {amount} {asset}'}
-    return {'status': 'error', 'message': f'Insufficient balance or asset {asset} not supported'}
 
-def calculate_rewards(asset):
-    if mock_staked.get(asset) and mock_staked[asset] > 0:
-        current_time = time.time()
-        staking_duration = current_time - stake_time.get(asset, current_time)
-        weeks_staked = staking_duration / (7 * 24 * 3600)  # Convert to weeks
-        rewards = mock_staked[asset] * reward_rates[asset] * weeks_staked
-        mock_rewards[asset] += rewards
-        stake_time[asset] = current_time  # Reset stake time after reward calculation
-        return rewards
-    return 0
 
-def simulate_claim_rewards(asset):
-    # Calculate the current rewards and claim them
-    rewards = calculate_rewards(asset)
-    if rewards > 0:
-        reward_amount = mock_rewards.get(asset, 0)
-        mock_balance[asset] += reward_amount  # Add rewards to balance
-        mock_rewards[asset] = 0  # Reset rewards after claiming
-        return {'status': 'success', 'message': f'Claimed {reward_amount} {asset} as rewards'}
-    return {'status': 'error', 'message': f'No rewards available to claim for {asset}'}
+    if asset =="DAI":
+        pass
+    if asset =="USDC":
+        pass
+    
+    #update balance 
+
+    #add logic add to transaction history
+
+    return {'status': 'success', 'message': f'Staked {amount} {asset}'}
+    # return {'status': 'error', 'message': f'Insufficient balance or asset {asset} not supported'}
 
 
 def simulate_supply(amount, asset):
@@ -97,15 +92,6 @@ def simulate_borrow(amount, asset):
         return {'status': 'success', 'message': f'Borrowed {amount} {asset}'}
     return {'status': 'error', 'message': f'Asset {asset} not supported'}
 
-def simulate_send(amount, asset, recipient):
-    if mock_balance.get(asset) and mock_balance[asset] >= amount:
-        mock_balance[asset] -= amount
-
-        #add logic add to transaction history
-
-        return {'status': 'success', 'message': f'Sent {amount} {asset} to {recipient}'}
-    return {'status': 'error', 'message': f'Insufficient balance or asset {asset} not supported'}
-
 def simulate_swap(amount, from_asset, to_asset):
     rate = exchange_rates[from_asset].get(to_asset)
     if not rate:
@@ -124,6 +110,11 @@ def simulate_swap(amount, from_asset, to_asset):
         #add logic add to transaction history
 
     return {'status': 'error', 'message': f'Insufficient balance or asset {from_asset} not supported'}
+
+
+
+
+
 
 
 
