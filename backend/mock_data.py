@@ -55,9 +55,9 @@ def simulate_stake(amount, asset):
         new_staked = (amount * 2389) + staked
 
         mock_balance['asset_history']['staked'] = new_staked
-        
-        # history = {'id': len(mock_transactions) + 1, 'type': 'Stake', 'token': 'ETH', 'amount': amount, 'date': formatted_date,'gas': ".00001"}
-        # mock_transactions.append(history)
+        mock_id = len(mock_transactions) + 1
+        history = {'id':mock_id, 'type': 'Stake', 'token': 'ETH', 'amount': amount, 'date': formatted_date,'gas': ".00001"}
+        mock_transactions.append(history)
 
 
 
