@@ -5,8 +5,8 @@ export const mockPortfolio = [
   ];
   
   export const mockTransactions = [
-    { id: 1, type: 'Lend', token: 'DAI', amount: 100, date: '2024-09-01' },
-    { id: 2, type: 'Stake', token: 'ETH', amount: 0.5, date: '2024-09-03' }
+    { id: 1, type: 'Lend', token: 'DAI', amount: 100, date: '2024-09-01', gas: "0.001 ETH" },
+    { id: 2, type: 'Stake', token: 'ETH', amount: 0.5, date: '2024-09-03', gas: "0.001 ETH" }
   ];
 
   export const mockAssets = [

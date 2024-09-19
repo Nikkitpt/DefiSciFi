@@ -1,6 +1,17 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #F8F8FF; /* Set the background color here */
+}
+
 .App {
   text-align: center;
   /* background-color: #e0f7fa; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -36,4 +47,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-title {
+  font-family: 'Roboto', sans-serif; /* Example font */
+  color: #353535; /* Dark gray color */
+  text-align: left;
+  padding: 20px;
+  font-size: 2em;
+  margin: 0;
 }
