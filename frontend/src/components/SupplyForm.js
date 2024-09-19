@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { TextField, Button, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
 
 const SupplyForm = ({ refreshPortfolio }) => {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [asset, setAsset] = useState('ETH');
   const [response, setResponse] = useState('');
 
   const handleSupply = async () => {
     try {
       const res = await axios.post('http://127.0.0.1:5000/supply', {
-        amount: parseInt(amount),
+        amount: parseInt(amount, 10),
         asset: asset,
       }, {
         headers: {
@@ -28,19 +29,35 @@ const SupplyForm = ({ refreshPortfolio }) => {
 
   return (
     <div>
-      <h3>Supply</h3>
-      <input
+      <TextField
         type="number"
-        placeholder="Amount"
+        label="Supply Amount"
+        variant="outlined"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        fullWidth
+        margin="normal"
       />
-      <select value={asset} onChange={(e) => setAsset(e.target.value)}>
-        <option value="ETH">ETH</option>
-        <option value="DAI">DAI</option>
-        <option value="USDC">USDC</option>
-      </select>
-      <button onClick={handleSupply}>Simulate Supply</button>
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Asset</InputLabel>
+        <Select
+          value={asset}
+          label="Asset"
+          onChange={(e) => setAsset(e.target.value)}
+        >
+          <MenuItem value="ETH">ETH</MenuItem>
+          <MenuItem value="DAI">DAI</MenuItem>
+          <MenuItem value="USDC">USDC</MenuItem>
+        </Select>
+      </FormControl>
+      <Button
+        onClick={handleSupply}
+        variant="contained"
+        color="primary"
+        fullWidth
+      >
+        Simulate Supply
+      </Button>
       <p>{response}</p>
     </div>
   );

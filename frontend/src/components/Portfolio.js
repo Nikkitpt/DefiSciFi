@@ -1,76 +1,117 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Typography } from '@mui/material';
+import { PieChart } from '@mui/x-charts/PieChart';
 import Grid from '@mui/material/Grid2';
 
-// Use React.forwardRef to allow this component to be referenced
+
 const Portfolio = forwardRef((props, ref) => {
-const [portfolio, setPortfolio] = useState(null);
-const [error, setError] = useState('');
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
+  const [portfolio, setPortfolio] = useState(null);
+  const [error, setError] = useState('');
 
-  // Function to fetch portfolio data
-const fetchPortfolio = async () => {
-  try {
-    const res = await axios.get('http://127.0.0.1:5000/portfolio');
-    setPortfolio(res.data);  // Assuming res.data contains the mock_balance
-  } catch (error) {
-    console.error('Error fetching portfolio:', error);
-    setError('Failed to fetch portfolio data.');
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    ...theme.applyStyles('dark', {
+      backgroundColor: '#1A2027',
+    }),
+  }));
+
+  const fetchPortfolio = async () => {
+    try {
+      const res = await axios.get('http://127.0.0.1:5000/portfolio');
+      console.log("API Response:", res.data);  // Ensure this logs correctly
+      setPortfolio(res.data);  // Update state with fetched data
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+      setError('Failed to fetch portfolio data.');
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    fetchPortfolio
+  }));
+
+  useEffect(() => {
+    fetchPortfolio();  // Fetch data on component mount
+  }, []);
+
+  if (error) {
+    return <p>{error}</p>;
   }
-};
 
-// Expose fetchPortfolio function via ref
-useImperativeHandle(ref, () => ({
-  fetchPortfolio
-}));
+  if (!portfolio) {
+    return <p>Loading portfolio...</p>;
+  }
 
-useEffect(() => {
-  fetchPortfolio();  // Fetch portfolio on component mount
-}, []);
-
-if (error) {
-  return <p>{error}</p>;
-}
-
-if (!portfolio) {
-  return <p>Loading portfolio...</p>;
-}
-
-return (
-  <div>
-    {/* <Grid size={4}>
+  return (
+    <div>
+      <Grid container style={{ marginBottom: '20px' }} spacing={2} rowSpacing={2} >
+        <Grid size={4}>
           <Item>
-          <h1 color='black'>Total Balance</h1>
-            <ul>
-              {Object.keys(portfolio).map((token, index) => (
-                <li key={index}>
-                  {token}: {portfolio[token]}
-                </li>
-              ))}
-            </ul> 
+            <Typography variant="h4" color="black">Total Balance</Typography>
+              <p>${portfolio.total_balance.toLocaleString()}</p>
           </Item>
-      </Grid> */}
-    <h1 color='black'>Total Balance</h1>
-    <ul>
-      {Object.keys(portfolio).map((token, index) => (
-        <li key={index}>
-          {token}: {portfolio[token]}
-        </li>
-      ))}
-    </ul>
-  </div>
-);
+        </Grid>
+        <Grid size={4}>
+          <Item>
+         < Typography variant="h5" color="black" gutterBottom>Distribution</Typography>
+            <PieChart
+              series={[{
+                data: Object.entries(portfolio.pie_chart).map(([key, value]) => ({
+                  label: key,
+                  value
+                })),
+              }]}
+              style={{ width: '100%', height: '20vh' }}
+            />
+          </Item>
+        </Grid>
+        <Grid size={4}>
+          <Item>
+          <Typography variant="h5" color="black">Investment History</Typography>
+            <p>Staked: ${portfolio.asset_history.staked}</p>
+            <p>Claimed: ${portfolio.asset_history.claimed}</p>
+            <p>Supplied: ${portfolio.asset_history.supplied}</p>
+            <p>Borrowed: ${portfolio.asset_history.borrowed}</p>
+            {/* <DefiBar/> */}
+
+          </Item>
+        </Grid>
+      </Grid>
+      <TableContainer style={{ marginBottom: '20px', marginTop: '20px' }} component={Paper}>
+      <Typography variant="h5" style={{ margin: '16px' }}>Portfolio Overview</Typography>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '25%' }}>Token</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '25%' }}>Amount</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '25%' }}>Value</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '25%' }}>24 Hour Change</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {portfolio.assets.map((asset, index) => (
+            <TableRow key={asset.id} style={{ backgroundColor: index % 2 ? '#f9f9f9' : 'white' }}>
+              <TableCell>{asset.token}</TableCell>
+              <TableCell>{asset.amount}</TableCell>
+              <TableCell>${asset.value}</TableCell>
+              <TableCell style={{ color: asset.change.startsWith('-') ? 'red' : 'green' }}>
+                {asset.change.startsWith('-') ? '↓' : '↑'} {Math.abs(asset.change)}%
+              </TableCell>
+              
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </div>
+  );
 });
 
 export default Portfolio;

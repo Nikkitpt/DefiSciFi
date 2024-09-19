@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { TextField, Button, MenuItem, FormControl, Select, InputLabel, Typography, Box } from '@mui/material';
 
-const SwapForm = ({refreshPortfolio}) => {
-    const [amount, setAmount] = useState(0);
+const SwapForm = ({ refreshPortfolio }) => {
+    const [amount, setAmount] = useState('');
     const [fromAsset, setFromAsset] = useState('ETH');
     const [toAsset, setToAsset] = useState('DAI');
     const [response, setResponse] = useState('');
-  
+
     const handleSwap = async () => {
       try {
         const res = await axios.post('http://127.0.0.1:5000/swap', {
-          amount: parseInt(amount), // Ensure amount is an integer
-          fromAsset: fromAsset, // Ensure fromAsset is a string
-          toAsset: toAsset, // Ensure toAsset is a string
+          amount: parseInt(amount, 10), // Convert amount to an integer
+          fromAsset: fromAsset,
+          toAsset: toAsset,
         }, {
           headers: {
             'Content-Type': 'application/json',
@@ -25,35 +26,59 @@ const SwapForm = ({refreshPortfolio}) => {
         setResponse('Failed to perform swap. Please try again.');
       }
     };
-  
+
     return (
-      <div>
-        <h3>Swap</h3>
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <div>
-          <label>From:</label>
-          <select value={fromAsset} onChange={(e) => setFromAsset(e.target.value)}>
-            <option value="ETH">ETH</option>
-            <option value="DAI">DAI</option>
-            <option value="USDC">USDC</option>
-          </select>
-        </div>
-        <div>
-          <label>To:</label>
-          <select value={toAsset} onChange={(e) => setToAsset(e.target.value)}>
-            <option value="ETH">ETH</option>
-            <option value="DAI">DAI</option>
-            <option value="USDC">USDC</option>
-          </select>
-        </div>
-        <button onClick={handleSwap}>Simulate Swap</button>
-        <p>{response}</p>
-      </div>
+      <Box sx={{ padding: 3 }}>
+        <FormControl fullWidth margin="normal">
+          <TextField
+            type="number"
+            label="Amount"
+            variant="outlined"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder="Enter amount"
+          />
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="from-asset-label">From:</InputLabel>
+          <Select
+            labelId="from-asset-label"
+            value={fromAsset}
+            onChange={(e) => setFromAsset(e.target.value)}
+            label="From"
+          >
+            <MenuItem value="ETH">ETH</MenuItem>
+            <MenuItem value="DAI">DAI</MenuItem>
+            <MenuItem value="USDC">USDC</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="to-asset-label">To:</InputLabel>
+          <Select
+            labelId="to-asset-label"
+            value={toAsset}
+            onChange={(e) => setToAsset(e.target.value)}
+            label="To"
+          >
+            <MenuItem value="ETH">ETH</MenuItem>
+            <MenuItem value="DAI">DAI</MenuItem>
+            <MenuItem value="USDC">USDC</MenuItem>
+          </Select>
+        </FormControl>
+        <Button
+          onClick={handleSwap}
+          variant="contained"
+          color="primary"
+          fullWidth
+        >
+          Simulate Swap
+        </Button>
+        {response && (
+          <Typography variant="body2" color="error" sx={{ mt: 2 }}>
+            {response}
+          </Typography>
+        )}
+      </Box>
     );
   };
 

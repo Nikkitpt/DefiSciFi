@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { TextField, Button, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
 
-const BorrowForm = ({refreshPortfolio}) => {
-  const [amount, setAmount] = useState(0);
+const BorrowForm = ({ refreshPortfolio }) => {
+  const [amount, setAmount] = useState('');
   const [asset, setAsset] = useState('ETH');
   const [response, setResponse] = useState('');
 
   const handleBorrow = async () => {
     try {
       const res = await axios.post('http://127.0.0.1:5000/borrow', {
-        amount: parseInt(amount), // Ensure amount is an integer
-        asset: asset, // Ensure asset is a string
+        amount: parseInt(amount, 10), // Ensuring amount is an integer
+        asset: asset,
       }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
       setResponse(res.data.message);
-      refreshPortfolio();
+      refreshPortfolio(); // Refreshing the portfolio view
     } catch (error) {
       console.error('Error during borrow request', error);
       setResponse('Failed to borrow asset. Please try again.');
@@ -26,19 +27,36 @@ const BorrowForm = ({refreshPortfolio}) => {
 
   return (
     <div>
-      <h3>Borrow</h3>
-      <input
+      <TextField
         type="number"
-        placeholder="Amount"
+        label="Borrow Amount"
+        variant="outlined"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        fullWidth
+        margin="normal"
       />
-      <select value={asset} onChange={(e) => setAsset(e.target.value)}>
-        <option value="ETH">ETH</option>
-        <option value="DAI">DAI</option>
-        <option value="USDC">USDC</option>
-      </select>
-      <button onClick={handleBorrow}>Simulate Borrow</button>
+      <FormControl fullWidth margin="normal">
+        <InputLabel id="asset-label">Asset</InputLabel>
+        <Select
+          labelId="asset-label"
+          value={asset}
+          onChange={(e) => setAsset(e.target.value)}
+          label="Asset"
+        >
+          <MenuItem value="ETH">ETH</MenuItem>
+          <MenuItem value="DAI">DAI</MenuItem>
+          <MenuItem value="USDC">USDC</MenuItem>
+        </Select>
+      </FormControl>
+      <Button
+        onClick={handleBorrow}
+        variant="contained"
+        color="primary"
+        fullWidth
+      >
+        Simulate Borrow
+      </Button>
       <p>{response}</p>
     </div>
   );
