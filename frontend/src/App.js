@@ -8,6 +8,7 @@ import TransactionHistory from './components/TransactionHistory';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { styled } from '@mui/material/styles';
 import { Paper, Typography } from '@mui/material';
+import { useState } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -22,13 +23,27 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 function App() {
+    // const portfolioRef = React.useRef(null);
+
+    // const refreshPortfolio = () => {
+    //   if (portfolioRef.current) {
+    //     portfolioRef.current.fetchPortfolio();
+    //   }
+    // };
+    // const yesterday = new Date();
+    // yesterday.setDate(yesterday.getDate() - 1); // Move the date back by one day
+    // const dateStr = yesterday.toISOString().split('T')[0]; // Get the date part in YYYY-MM-DD format
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
     const portfolioRef = React.useRef(null);
 
     const refreshPortfolio = () => {
       if (portfolioRef.current) {
         portfolioRef.current.fetchPortfolio();
       }
+      // Also trigger a refresh for TransactionHistory
+      setRefreshTrigger(prev => prev + 1); // Change the refreshTrigger value to trigger a re-fetch
     };
+
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1); // Move the date back by one day
     const dateStr = yesterday.toISOString().split('T')[0]; // Get the date part in YYYY-MM-DD format
@@ -73,7 +88,7 @@ return (
 
         </Grid>
       </Grid>
-        <TransactionHistory/>
+        <TransactionHistory refreshTrigger={refreshTrigger}/>
     </Box>
   </div>
 );

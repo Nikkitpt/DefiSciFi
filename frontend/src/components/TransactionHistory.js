@@ -2,7 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import axios from 'axios'; // Make sure to install axios with `npm install axios`
 
-function TransactionHistory() {
+function TransactionHistory({ refreshTrigger }) {
+  // const [transactions, setTransactions] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchTransactions = async () => {
+  //     try {
+  //       const response = await axios.get('http://127.0.0.1:5000/transactions');
+  //       setTransactions(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching transactions:', error);
+  //       // Optionally handle errors, e.g., by setting an error state or displaying a notification
+  //     }
+  //   };
+
+  //   fetchTransactions();
+  // }, []); // The empty dependency array ensures this effect runs only once after the component mounts
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -12,12 +27,11 @@ function TransactionHistory() {
         setTransactions(response.data);
       } catch (error) {
         console.error('Error fetching transactions:', error);
-        // Optionally handle errors, e.g., by setting an error state or displaying a notification
       }
     };
 
     fetchTransactions();
-  }, []); // The empty dependency array ensures this effect runs only once after the component mounts
+  }, [refreshTrigger]); // Add refreshTrigger to the dependency array
 
   return (
     <TableContainer style={{ marginBottom: '20px', marginTop: '20px' }} component={Paper}>

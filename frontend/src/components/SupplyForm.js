@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, Button, MenuItem, FormControl, Select, InputLabel } from '@mui/material';
+import { TextField, Button, MenuItem, FormControl, Select, InputLabel,Typography } from '@mui/material';
 
 const SupplyForm = ({ refreshPortfolio }) => {
   const [amount, setAmount] = useState('');
@@ -47,7 +47,7 @@ const SupplyForm = ({ refreshPortfolio }) => {
         >
           <MenuItem value="ETH">ETH</MenuItem>
           <MenuItem value="DAI">DAI</MenuItem>
-          <MenuItem value="USDC">USDC</MenuItem>
+          <MenuItem value="BTC">BTC</MenuItem>
         </Select>
       </FormControl>
       <Button
@@ -58,7 +58,10 @@ const SupplyForm = ({ refreshPortfolio }) => {
       >
         Simulate Supply
       </Button>
-      <p>{response}</p>
+      <Typography color="error">
+                    {response}
+      </Typography>
+      {/* <p>{response}</p> */}
     </div>
   );
 };

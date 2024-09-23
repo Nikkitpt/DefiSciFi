@@ -48,7 +48,7 @@ const StakeForm = ({ refreshPortfolio }) => {
                 >
                     <MenuItem value="ETH">ETH</MenuItem>
                     <MenuItem value="DAI">DAI</MenuItem>
-                    <MenuItem value="USDC">USDC</MenuItem>
+                    <MenuItem value="BTC">BTC</MenuItem>
                 </Select>
             </FormControl>
             <Button
