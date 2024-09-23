@@ -6,8 +6,8 @@ from flask_cors import CORS
 
 
 # Initialize extensions without tying them to any specific app yet
-db = SQLAlchemy()
-migrate = Migrate()
+# db = SQLAlchemy()
+# migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
@@ -15,8 +15,8 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize the extensions with the app instance
-    db.init_app(app)
-    migrate.init_app(app, db)
+    # db.init_app(app)
+    # migrate.init_app(app, db)
     cors = CORS(app)
 
 
