@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/defiscifi/static/css/main.6c773440.css",
+    "main.js": "/defiscifi/static/js/main.d08041f8.js",
+    "static/js/453.8ab44547.chunk.js": "/defiscifi/static/js/453.8ab44547.chunk.js",
+    "index.html": "/defiscifi/index.html",
+    "main.6c773440.css.map": "/defiscifi/static/css/main.6c773440.css.map",
+    "main.d08041f8.js.map": "/defiscifi/static/js/main.d08041f8.js.map",
+    "453.8ab44547.chunk.js.map": "/defiscifi/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6c773440.css",
+    "static/js/main.d08041f8.js"
+  ]
+}
