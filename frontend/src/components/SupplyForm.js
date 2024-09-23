@@ -9,7 +9,7 @@ const SupplyForm = ({ refreshPortfolio }) => {
 
   const handleSupply = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:5000/supply', {
+      const res = await axios.post('https://defiscfi-c4f66b4dcc8c.herokuapp.com/supply', {
         amount: parseInt(amount, 10),
         asset: asset,
       }, {

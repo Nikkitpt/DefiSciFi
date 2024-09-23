@@ -23,7 +23,7 @@ function TransactionHistory({ refreshTrigger }) {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/transactions');
+        const response = await axios.get('https://defiscfi-c4f66b4dcc8c.herokuapp.com/transactions');
         setTransactions(response.data);
       } catch (error) {
         console.error('Error fetching transactions:', error);

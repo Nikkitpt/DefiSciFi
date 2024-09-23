@@ -9,7 +9,8 @@ const BorrowForm = ({ refreshPortfolio }) => {
 
   const handleBorrow = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:5000/borrow', {
+      // const res = await axios.post('http://127.0.0.1:5000/borrow', {
+        const res = await axios.post('https://defiscfi-c4f66b4dcc8c.herokuapp.com/borrow', {
         amount: parseInt(amount, 10), // Ensuring amount is an integer
         asset: asset,
       }, {

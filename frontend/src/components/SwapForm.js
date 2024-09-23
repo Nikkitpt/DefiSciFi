@@ -10,7 +10,7 @@ const SwapForm = ({ refreshPortfolio }) => {
 
     const handleSwap = async () => {
       try {
-        const res = await axios.post('http://127.0.0.1:5000/swap', {
+        const res = await axios.post('https://defiscfi-c4f66b4dcc8c.herokuapp.com/swap', {
           amount: parseInt(amount, 10), // Convert amount to an integer
           fromAsset: fromAsset,
           toAsset: toAsset,

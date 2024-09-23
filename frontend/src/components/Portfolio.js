@@ -24,7 +24,7 @@ const Portfolio = forwardRef((props, ref) => {
 
   const fetchPortfolio = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:5000/portfolio');
+      const res = await axios.get('https://defiscfi-c4f66b4dcc8c.herokuapp.com/portfolio');
       console.log("API Response:", res.data);  // Ensure this logs correctly
       setPortfolio(res.data);  // Update state with fetched data
     } catch (error) {
