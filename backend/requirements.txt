@@ -32,6 +32,7 @@ Flask-Cors==5.0.0
 Flask-Migrate==4.0.7
 Flask-SQLAlchemy==3.1.1
 frozenlist==1.4.1
+gunicorn==23.0.0
 hexbytes==0.3.1
 hypothesis==6.27.3
 idna==3.6
