@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from mock_data import mock_transactions, mock_balance, simulate_supply, simulate_borrow, simulate_swap,  simulate_stake
-from .utils import add_transaction
+# from .utils import add_transaction
 from web3 import Web3
 import json
 import requests

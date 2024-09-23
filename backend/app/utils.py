@@ -1,4 +1,4 @@
-from . import db
+# from . import db
 from .models import Transaction
 
 # def add_transaction(amount, type):
